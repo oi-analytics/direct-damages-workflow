@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "direct-damages"
+dynamic = ["version"]
+description = "Supporting package for Tanzania Transport Resilience Analysis."
+authors = [{ name = "Alison Peard", email = "alison.peard@ouce.ox.ac.uk" }]
+readme = "README.md"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/direct_damages"]
