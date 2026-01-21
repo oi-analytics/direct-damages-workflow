@@ -75,9 +75,9 @@ def all_subregions(wildcards):
 
 rule all_results_for_asset_and_hazard:
     """
-    snakemake --cores 4 $DATADIR/flags/tza_railway_edges/pluvial/.processed -n
-    snakemake --cores 4 $DATADIR/flags/tza_roads_bridges_and_culverts_nodes/pluvial/.processed -n
-    snakemake --cores 4 $DATADIR/flags/tza_airports_polygons/pluvial/.processed -n
+    snakemake -c4 $DATADIR/flags/tza_railway_edges/pluvial/.processed -n
+    snakemake -c4 $DATADIR/flags/tza_roads_bridges_and_culverts_nodes/pluvial/.processed -n
+    snakemake -c4 $DATADIR/flags/tza_airports_polygons/pluvial/.processed -n
     """
     input:
         all_subregions
@@ -87,11 +87,11 @@ rule all_results_for_asset_and_hazard:
 
 rule all_intersections:
     """
-    snakemake --cores 1 all_intersections -n
+    snakemake -c2 all_intersections -n
     """
     input:
         expand(
-            f"{DATADIR}/intersections/{{asset_geom}}/{{hazard}}/{{subregion}}/profile.geoparquet",
+            f"{DATADIR}/intersections/{{asset_geom}}/{{hazard}}/{{subregion}}/profile.parquet",
             asset_geom=ASSET_GEOMS,
             hazard=HAZARDS,
             subregion=get_subregions()
