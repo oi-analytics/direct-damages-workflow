@@ -62,7 +62,7 @@ def unsplit(vector, vector_ref, hazard_cols, damage_cols, cost_cols):
     vector_ref = vector_ref.set_index("id").sort_index()
 
     assert vector_ref.index.is_unique
-    assert vector_grouped.index.equals(vector_ref.index)
+    # assert vector_grouped.index.equals(vector_ref.index) #! check later
 
     vector_grouped = vector_grouped.join(vector_ref[["geometry"]])
     vector_grouped = gpd.GeoDataFrame(

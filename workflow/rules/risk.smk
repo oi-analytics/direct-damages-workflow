@@ -91,8 +91,30 @@ rule all_intersections:
     """
     input:
         expand(
-            f"{DATADIR}/intersections/{{asset_geom}}/{{hazard}}/{{subregion}}/profile.parquet",
+            f"{DATADIR}/intersections/{{asset_geom}}/{{hazard}}/{{subregion}}/profile.geoparquet",
             asset_geom=ASSET_GEOMS,
             hazard=HAZARDS,
             subregion=get_subregions()
         )
+
+
+rule verify_intersections:
+    """
+    Check intersection results against input raster.
+
+    snakemake -c1 $DATADIR/flags/tza_railway_edges/pluvial/kilimanjaro.checked
+    snakemake -c1 $DATADIR/flags/tza_roads_bridges_and_culverts_nodes/pluvial/kilimanjaro.checked
+    snakemake -c1 $DATADIR/flags/tza_airports_polygons/pluvial/kilimanjaro.checked
+    snakemake -c1 $DATADIR/flags/tza_railway_edges/pluvial/shinyanga.checked
+    """
+    input:
+        vector=f"{DATADIR}/intersections/{{asset}}_{{geom}}/{{hazard}}/{{subregion}}/profile.geoparquet",
+        ref_dir=f"{DATADIR}/assets/{{asset}}_{{geom}}",
+        hazdir=f"{DATADIR}/hazards/aligned"
+    params:
+        subregion="{subregion}",
+        hazard="{hazard}"
+    output:
+        touch(f"{DATADIR}/flags/{{asset}}_{{geom}}/{{hazard}}/{{subregion}}.checked")
+    script:
+        "../scripts/verify_intersections.py"

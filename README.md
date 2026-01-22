@@ -6,6 +6,7 @@
 - Add scripts for figures
 - Option to interpolate to design standards
 - More investigation simpson vs trapezoidal rule for expected value calculations
+- Verify intersections.linestrings.unsplit() index matching logic
 
 ---
 
