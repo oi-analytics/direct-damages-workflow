@@ -7,7 +7,7 @@ import rioxarray as rxr
 from rasterio.features import shapes
 import logging
 
-from utils import naming
+from direct_damages import naming
 
 
 __all__ = ["raster_to_geodataframe"]
@@ -77,6 +77,8 @@ def main(input, params):
     hazpath = os.path.join(input.hazdir, hazfile)
     hazard = rxr.open_rasterio(hazpath, masked=True)
     check_asset_exposure(idx, gdf, hazard, hazcol)
+
+logging.info("SUCCESS: All verifications passed.")
 
 
 if __name__ == "__main__":
