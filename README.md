@@ -78,7 +78,7 @@ Hazard rasters should have WGS-84 projection and proper `NoData` values defined.
 
 Before the workflow begins, all hazards are aligned to a common grid and placed in `results/hazards/aligned/`. Rule: `rules/hazards.smk`.
 
-### Management data
+### Management data
 
 The workflow uses damage curves, design standards, and rehabilitation costs stored in `config/damage_curves`, `config/design_standards`, and `config/rehab_costs`:
 
