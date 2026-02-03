@@ -1,14 +1,16 @@
-## To do
+This is a simple snakemake workflow to carry out geospatial hazard–asset intersections and calculate various asset-level metrics, such as:
+- maximum hazard intensity;
+- units of asset damages; and
+- rehabilitation cost of asset repair.
 
-- Code to aggregate and finalise outputs
-- Code to make pivot tables of results
-- Separate hazard pre-processing into its own workflow
-- Add scripts for figures
-- Option to interpolate to design standards
-- More investigation simpson vs trapezoidal rule for expected value calculations
-- Verify intersections.linestrings.unsplit() index matching logic
+It has strict rules about the format of input files (hazard rasters, asset vectors, and management information like damage curves, rehabilitation costs, and design standards). Details of these rules are documented [below](#data-formatting-rules) (though the documentation may have some gaps, this is a WIP).
 
----
+Once all the data is in the correct format, the [Quickstart](#quickstart) instructions describe how to run an analysis.
+
+#### Other notes 
+- This a WIP and has only been tested on Tanzania 2025.
+- A sister repository for mobility modelling with the radiation model is in progress.
+- This is currently a snakemake workflow rather than an importable module. This seemed most appropriate for the memory intensity, large number of I/O ops, and creation of many intermediate files.
 
 ## Quickstart
 
@@ -42,6 +44,7 @@ snakemake --cores 4 $DATADIR$/flags/tza_railway_edges/pluvial/.processed -n
 ```
 
 ---
+# Data formatting rules
 
 ### Assets
 
@@ -87,3 +90,16 @@ The workflow uses damage curves, design standards, and rehabilitation costs stor
 Rehabilitation costs and design standards are indexed by `asset_type`.
 
 Damage curves have an `intensity` column and three columns for damage fractions: `damage_fraction_max`, `damage_fraction_min`, `damage_fraction_mean`. Use `#` to note the units of intensity. Costs are specified in `costs_per_unit` with a separate `unit_type` column indicating `m` (LineStrings), `sqm` (Polygons), or `unit` (Points). Example processing scripts to get input costs and curves into the right format are in `analysis/scripts/`.
+
+
+
+## To do
+
+- Code to aggregate and finalise outputs
+- Code to make pivot tables of results
+- Separate hazard pre-processing into its own workflow
+- Add scripts for figures
+- Option to interpolate to design standards
+- More investigation simpson vs trapezoidal rule for expected value calculations
+- Verify intersections.linestrings.unsplit() index matching logic
+
