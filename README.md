@@ -1,3 +1,5 @@
+# Snakemake direct damages workflow
+
 This is a simple snakemake workflow to carry out geospatial hazard–asset intersections and calculate various asset-level metrics, such as:
 - maximum hazard intensity;
 - units of asset damages; and
@@ -8,6 +10,7 @@ It has strict rules about the format of input files (hazard rasters, asset vecto
 Once all the data is in the correct format, the [Quickstart](#quickstart) instructions describe how to run an analysis.
 
 #### Other notes 
+
 - This a WIP and has only been tested on Tanzania 2025.
 - A sister repository for mobility modelling with the radiation model is in progress.
 - This is currently a snakemake workflow rather than an importable module. This seemed most appropriate for the memory intensity, large number of I/O ops, and creation of many intermediate files.
@@ -91,11 +94,12 @@ Damage curves have an `intensity` column and three columns for damage fractions:
 
 ## To do
 
-- Code to aggregate and finalise outputs
-- Code to make pivot tables of results
-- Separate hazard pre-processing into its own workflow
-- Add scripts for figures
-- Option to interpolate to design standards
-- More investigation simpson vs trapezoidal rule for expected value calculations
-- Verify intersections.linestrings.unsplit() index matching logic
+- [ ] Code to spatially aggregate and finalise outputs
+- [ ] Code to make deliverable pivot tables of results
+- [x] Separate hazard pre-processing into its own workflow
+- [ ] (Optional) Add scripts for figures
+- [ ] Option to interpolate to design standards
+- [ ] More investigation simpson vs trapezoidal rule for expected value calculations
+- [ ] Verify intersections.linestrings.unsplit() index matching logic
+- [ ] Document the `exactextract` for polygons and add more damage metric functions.
 
