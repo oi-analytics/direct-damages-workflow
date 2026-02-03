@@ -16,30 +16,28 @@ Once all the data is in the correct format, the [Quickstart](#quickstart) instru
 
 1. Clone the repository:
 ```bash
-git clone git@github.com:alisonpeard/oia-tanzania-2025.git
+git clone git@github.com:oi-analytics/direct-damages-workflow.git
 ```
 
 2. Create and activate the conda environment:
 ```bash
-cd oia-tanzania-2025
+cd direct-damages-workflow
 conda env create -f environment.yaml
 conda activate oia-direct-damages
 ```
 
-3. Download the input data from the shared drive and place it locally.
+3. Download the input data from the shared drive (<add link>) and store it locally.
 
 4. In `workflow/config.yaml`, set the `inputs` key to your input data location. The input data structure should be:
 
-    - Vector asset files: `{inputs}/assets/{asset}_{geom}.parquet`
-    - Admin boundary files: `{inputs}/admin/tza_admin_{level}.gpkg`
-    - Hazard raster files: `{inputs}/hazards/{hazard}_{epoch}_{scenario}_rp{rp}.tif`
-
-5. Copy `{inputs}/hazards/{hazard}_{epoch}_{scenario}_rp{rp}.tif` to `results/hazards/aligned/`. These are pre-processed.
+    - Vector asset files: `{inputs}/assets/raw/{asset}_{geom}.parquet`
+    - Admin boundary files: `{inputs}/admin/level01.gpkg`
+    - Hazard raster files: `{inputs}/hazards/raw/{hazard}_{epoch}_{scenario}_rp{rp}.tif`
 
 6. Run all intersections and damage calculations for the pluvial flood hazard on the Tanzania road edges asset (add `-n` flag for dry run):
 ```bash
 cd workflow
-export DATADIR=<path-to-project-datadir>
+export DATADIR=<path/to/project/datadir>
 snakemake --cores 4 $DATADIR$/flags/tza_railway_edges/pluvial/.processed -n
 ```
 
@@ -48,36 +46,36 @@ snakemake --cores 4 $DATADIR$/flags/tza_railway_edges/pluvial/.processed -n
 
 ### Assets
 
-Assets should be placed in `{input}/assets/` with format: `{asset}_{geom}.parquet` where:
+Assets should be placed in `{input}/assets/raw` with format: `{asset}_{geom}.parquet` where:
 - `asset`: asset type (e.g., `tza_airports`, `tza_railway`)
 - `geom`: geometry type (e.g., `nodes`, `edges`, `polygon`)
+- every file has as `asset_type` field that links entires to the csv files in [Management data](#management-data)
 
 Rules in `rules/assets.smk` pre-process these to:
 - Split by subregion
 - Have a single geometry type per asset (e.g., LineString, Polygon, Point—no MultiLineStrings)
 - Have WGS84 projection
-- Have five columns: (unique) `id`, `asset_type`, `unit`, `unit_type`, `geometry`. The `asset_type` column should match naming for damage curves and rehab costs
+- Have five columns: (unique) `id`, `asset_type`, `unit`, `unit_type`, `geometry`.
 
-Pre-processed assets are placed in `results/assets/` with format: `{asset}_{geom}/{subregion}.geoparquet`.
+Processed assets are placed in `results/assets/` with format: `{asset}_{geom}/{subregion}.geoparquet`.
 
 ### Hazards
 
-The workflow to pre-process hazard rasters is in `rules/hazards.smk` but needs to be tidied a bit.
+Hazard rasters should be placed in `results/hazards/raw/` with format:
 
-Pre-processed hazards should be placed in `results/hazards/aligned/` with format:
 ```
 {hazard}_{epoch}_{scenario}_rp{rp}.tif
 ```
-
-where:
 - `hazard`: hazard name (e.g., `pluvial`, `cyclone`). Should match the hazard used in damage curves and rehabilitation costs
 - `epoch`: time horizon (e.g., `2020`, `2050`, `2080`)
 - `scenario`: climate scenario (e.g., `historical`, `ssp245`, `ssp585`)
 - `rp`: return period (e.g., `00010`, `00050`, `00100`)
 
-Hazard rasters should have WGS84 projection and proper `NoData` values defined. Rules to pre-process hazard rasters are in `rules/hazards` and the rule to align all pre-processed hazards to a common grid is in `rules/hazards.smk`.
+Hazard rasters should have WGS-84 projection and proper `NoData` values defined. Examples of preparing e.g., Fathom data will be put in the 2025 Tanzania project repo. 
 
----
+Before the workflow begins, all hazards are aligned to a common grid and placed in `results/hazards/aligned/`. Rule: `rules/hazards.smk`.
+
+### Management data
 
 The workflow uses damage curves, design standards, and rehabilitation costs stored in `config/damage_curves`, `config/design_standards`, and `config/rehab_costs`:
 
@@ -89,9 +87,7 @@ The workflow uses damage curves, design standards, and rehabilitation costs stor
 
 Rehabilitation costs and design standards are indexed by `asset_type`.
 
-Damage curves have an `intensity` column and three columns for damage fractions: `damage_fraction_max`, `damage_fraction_min`, `damage_fraction_mean`. Use `#` to note the units of intensity. Costs are specified in `costs_per_unit` with a separate `unit_type` column indicating `m` (LineStrings), `sqm` (Polygons), or `unit` (Points). Example processing scripts to get input costs and curves into the right format are in `analysis/scripts/`.
-
-
+Damage curves have an `intensity` column and three columns for damage fractions: `damage_fraction_max`, `damage_fraction_min`, `damage_fraction_mean`. Use `#` to note the units of intensity. Costs are specified in `costs_per_unit` with a separate `unit_type` column indicating `m` (LineStrings), `sqm` (Polygons), or `unit` (Points). Example processing scripts to get input costs and curves into the right format are in `analysis/scripts/` [check this link has probably changed].
 
 ## To do
 
