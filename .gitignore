@@ -13,6 +13,7 @@ rw.py
 .snakemake/
 config.json
 data/
+tree.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
