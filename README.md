@@ -29,15 +29,16 @@ conda env create -f environment.yaml
 conda activate oia-direct-damages
 ```
 
-3. Download the input data from the shared drive (<add link>) and store it locally.
+1. Download the input data from the shared drive (<add link>) and store it locally.
 
-4. In `workflow/config.yaml`, set the `inputs` key to your input data location. The input data structure should be:
+2. In `workflow/config.yaml`, set the `inputs` key to your input data location. The input data structure should be:
 
     - Vector asset files: `{inputs}/assets/raw/{asset}_{geom}.parquet`
     - Admin boundary files: `{inputs}/admin/level01.gpkg`
     - Hazard raster files: `{inputs}/hazards/raw/{hazard}_{epoch}_{scenario}_rp{rp}.tif`
+    See the [file tree template](#filetree-in-datadir).
 
-6. Run all intersections and damage calculations for the pluvial flood hazard on the Tanzania road edges asset (add `-n` flag for dry run):
+3. Run all intersections and damage calculations for the pluvial flood hazard on the Tanzania road edges asset (add `-n` flag for dry run):
 ```bash
 cd workflow
 export DATADIR=<path/to/project/datadir>
@@ -91,6 +92,74 @@ The workflow uses damage curves, design standards, and rehabilitation costs stor
 Rehabilitation costs and design standards are indexed by `asset_type`.
 
 Damage curves have an `intensity` column and three columns for damage fractions: `damage_fraction_max`, `damage_fraction_min`, `damage_fraction_mean`. Use `#` to note the units of intensity. Costs are specified in `costs_per_unit` with a separate `unit_type` column indicating `m` (LineStrings), `sqm` (Polygons), or `unit` (Points). Example processing scripts to get input costs and curves into the right format are in `analysis/scripts/` [check this link has probably changed].
+
+
+## Filetree in datadir
+
+### Before running workflow
+
+```
+.
+├── admin
+│   └── level01.gpkg
+├── assets
+│   └── raw
+│       └── {iso}_{asset}_{geom}.geoparquet
+├── config
+│   ├── asset_types.csv
+│   ├── damage_curves
+│   │   └── {hazard}
+│   │       └── {asset_type}.csv
+│   ├── design_standards
+│   │   └── {hazard}.csv
+│   ├── rehab_costs
+│   │   └── {hazard}.csv
+│   └── subregions.txt
+└── hazards
+    └── raw
+        ├── _reference.tif
+        └── {hazard}_{epoch}_{scenario}_rp{rp}.tif
+```
+
+### After running workflow
+
+```
+.
+├── admin
+│   └── level01.gpkg
+├── assets
+│   ├── raw
+│   │   └── {iso}_{asset}_{geom}.geoparquet
+│   └── {iso}_{asset}_{geom}
+│       └── {subregion}.geoparquet
+├── config
+│   ├── asset_types.csv
+│   ├── damage_curves
+│   │   └── {hazard}
+│   │       └── {asset_type}.csv
+│   ├── design_standards
+│   │   └── {hazard}.csv
+│   ├── rehab_costs
+│   │   └── {hazard}.csv
+│   └── subregions.txt
+├── flags
+│   └── {iso}_{asset}_{geom}
+│       └── {hazard}
+│           └── {subregion}.checked
+├── hazards
+│   ├── aligned
+│   │   ├── _reference.tif
+│   │   └── {hazard}_{epoch}_{scenario}_rp{rp}.tif
+│   └── raw
+│       ├── _reference.tif
+│       └── {hazard}_{epoch}_{scenario}_rp{rp}.tif
+└── intersections
+    └── {iso}_{asset}_{geom}
+        └── {hazard}
+            └── {subregion}
+                ├── profile.geoparquet
+                └── splits.geoparquet
+```
 
 ## To do
 
