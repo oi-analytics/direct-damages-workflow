@@ -11,9 +11,10 @@ Once all the data is in the correct format, the [Quickstart](#quickstart) instru
 
 #### Other notes 
 
-- This a WIP and has only been tested on Tanzania 2025.
+- This a WIP and has only been tested on Tanzania 2025. Some parameters for Tanzania might still be hardcoded.
 - A sister repository for mobility modelling with the radiation model is in progress.
 - This is currently a snakemake workflow rather than an importable module. This seemed most appropriate for the memory intensity, large number of I/O ops, and creation of many intermediate files.
+- Minimal tests have been done, except to verify the intersection results.
 
 ## Quickstart
 
