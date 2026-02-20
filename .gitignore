@@ -12,8 +12,10 @@ build
 rw.py
 .snakemake/
 config.json
-data/
 tree.txt
+logs/
+*.log
+demo/results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

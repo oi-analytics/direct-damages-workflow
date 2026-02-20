@@ -68,7 +68,7 @@ def intersect_by_overlap(polys, admin):
 
 def main(input, output, params):
     polys = gpd.read_parquet(input.polys).to_crs(params.local_crs)
-    admin = gpd.read_file(input.admin).to_crs(params.local_crs)
+    admin = gpd.read_parquet(input.admin).to_crs(params.local_crs)
     subregions = load_subregions(input.subregions)
     logging.info(f"Using local projection EPSG:{params.local_crs}.")
 
