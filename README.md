@@ -18,6 +18,10 @@ When all the data is in the correct format, the [Quickstart](#quickstart) instru
 
 ## Quickstart
 
+Data is provided for a simple demo of cyclone risk to railway, airports, and bridges in Dar es Salaam, Tanzania.
+
+<img src="demo/fig/dar_es_salaam.png" alt="Infra risk" width="300">
+
 1. Clone the repository:
 ```bash
 git clone git@github.com:oi-analytics/direct-damages-workflow.git
@@ -205,12 +209,18 @@ Damage curves have an `intensity` column and three columns for damage fractions:
 
 ## To do
 
+### Documentation
+- [ ] Document the `exactextract` for polygons and add more damage metric functions.
+- [ ] Better figures
+- [ ] Make the "splits" options clearer
+
+### New features
 - [ ] Code to spatially aggregate and finalise outputs
 - [ ] Code to make deliverable pivot tables of results
-- [ ] (Optional) Add scripts for figures
 - [ ] Option to interpolate to design standards
+- [ ] (Optional) Add scripts for figures
 - [ ] More investigation simpson vs trapezoidal rule for expected value calculations
 - [ ] Verify intersections.linestrings.unsplit() index matching logic
-- [ ] Document the `exactextract` for polygons and add more damage metric functions.
+- [ ] Benchmarking and complexity
 - [x] Separate hazard pre-processing into its own workflow
 
