@@ -1,13 +1,13 @@
 # Snakemake direct damages workflow
 
 This is a simple snakemake workflow to carry out geospatial hazard–asset intersections and calculate various asset-level metrics, such as:
-- maximum hazard intensity;
-- units of asset damages; and
-- rehabilitation cost of asset repair.
+- maximum hazard intensity per asset for a given hazard scenario;
+- number of units of asset damaged for a given hazard scenario; and
+- rehabilitation cost of asset repair for a given hazard scenario.
 
-It has strict rules about the format of input files (hazard rasters, asset vectors, and management information like damage curves, rehabilitation costs, and design standards). Details of these rules are documented [below](#data-formatting-rules) (though the documentation may have some gaps, this is a WIP).
+The workflow has strict rules about the format of input files (hazard rasters, asset vectors, and management information like damage curves, rehabilitation costs, and design standards). Details of these rules are documented [below](#data-formatting-rules) (though the documentation may have some gaps, this is a WIP).
 
-Once all the data is in the correct format, the [Quickstart](#quickstart) instructions describe how to run an analysis.
+When all the data is in the correct format, the [Quickstart](#quickstart) instructions describe how to run an analysis.
 
 #### Other notes 
 
@@ -23,14 +23,14 @@ Once all the data is in the correct format, the [Quickstart](#quickstart) instru
 git clone git@github.com:oi-analytics/direct-damages-workflow.git
 ```
 
-2. Create and activate the conda environment:
+1. Create and activate the conda environment:
 ```bash
 cd direct-damages-workflow
 conda env create -f environment.yaml
 conda activate oia-direct-damages
 ```
 
-1. Download the input data from the shared drive (<add link>) and store it locally.
+1. The demo data for cyclone hazard to Dar es Salaam, Tanzania is located in the `demo/` folder in this repository.
 
 2. In `workflow/config.yaml`, set the `inputs` key to your input data location. The input data structure should be:
 
@@ -39,25 +39,67 @@ conda activate oia-direct-damages
     - Hazard raster files: `{inputs}/hazards/raw/{hazard}_{epoch}_{scenario}_rp{rp}.tif`
     See the [file tree template](#filetree-in-datadir).
 
-3. Run all intersections and damage calculations for the pluvial flood hazard on the Tanzania road edges asset (add `-n` flag for dry run):
-```bash
-cd workflow
-export DATADIR=<path/to/project/datadir>
-snakemake --cores 4 $DATADIR$/flags/tza_railway_edges/pluvial/.processed -n
-```
+    This is already set to point to the demo data.
+
+3. Run all intersections and damage calculations for the cyclone hazard on the Tanzania road edges asset (add `-n` flag for dry run):
+    
+    ```bash
+    cd workflow
+    export INPUTDIR=../demo/input
+    snakemake -c4 $INPUTDIR$/flags/tza_railway_edges/cyclone/.processed -n
+    ```
 
 ---
 # Data formatting rules
 
+### Config file
+
+The `config.yaml` file is located inside the `workflow/` directory. A demo config file is intialised in this repo for Dar es Salaam.
+
+Example full configuration for the [OIA/WBG Tanzania 2025 project](https://github.com/oi-analytics/tanzania-transport-resilience):
+
+```yaml
+input: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/snakemake_data"
+results: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/results"
+local_crs: 32735
+country: "tanzania"
+admin_level: "01"
+bbox: [29, 41, -12, -1]
+asset_geoms:
+  - "tza_roads_edges"
+  - "tza_roads_bridges_and_culverts_nodes"
+  - "tza_railway_edges"
+  - "tza_airports_polygons"
+  - "tza_iww_ports_polygons"
+  - "tza_maritime_ports_polygons"
+hazards:
+  - "fluvial"
+  - "pluvial"
+  - "coastal"
+  - "cyclone"
+  - "landslide"
+  - "hd35"
+  - "tasmax"
+```
+
+### Administrative boundaries data
+
+Store administrative boundary polygons for a giving administrative level (*e.g.*, 01, 02, 03) in `{config.input}/admin/` with the filename: `level{level}.parquet`. Keep metadata such as data source recorded separately.
+
 ### Assets
 
-Assets should be placed in `{input}/assets/raw` with format: `{asset}_{geom}.parquet` where:
+Assets should be placed in `{config.input}/assets/raw/` with format:
+```
+{iso}_{asset}_{geom}.geoparquet
+```
+
+where:
 - `asset`: asset type (e.g., `tza_airports`, `tza_railway`)
 - `geom`: geometry type (e.g., `nodes`, `edges`, `polygon`)
 - every file has as `asset_type` field that links entires to the csv files in [Management data](#management-data)
 
 Rules in `rules/assets.smk` pre-process these to:
-- Split by subregion
+- Split by subregion in the administrative boundary data.
 - Have a single geometry type per asset (e.g., LineString, Polygon, Point—no MultiLineStrings)
 - Have WGS84 projection
 - Have five columns: (unique) `id`, `asset_type`, `unit`, `unit_type`, `geometry`.
@@ -66,7 +108,7 @@ Processed assets are placed in `results/assets/` with format: `{asset}_{geom}/{s
 
 ### Hazards
 
-Hazard rasters should be placed in `results/hazards/raw/` with format:
+Hazard rasters should be placed in `{config.input}/hazards/raw/` with format:
 
 ```
 {hazard}_{epoch}_{scenario}_rp{rp}.tif
@@ -82,7 +124,7 @@ Before the workflow begins, all hazards are aligned to a common grid and placed 
 
 ### Management data
 
-The workflow uses damage curves, design standards, and rehabilitation costs stored in `config/damage_curves`, `config/design_standards`, and `config/rehab_costs`:
+The workflow uses damage curves, design standards, and rehabilitation costs stored in `{config.input}/config/damage_curves/`, `{config.input}/config/design_standards/`, and `{config.input}/config/rehab_costs/`:
 
 | Data type            | Format | Location                                           |
 |----------------------|--------|----------------------------------------------------|
@@ -102,12 +144,11 @@ Damage curves have an `intensity` column and three columns for damage fractions:
 ```
 .
 ├── admin
-│   └── level01.gpkg
+│   └── level{level}.parquet
 ├── assets
 │   └── raw
 │       └── {iso}_{asset}_{geom}.geoparquet
 ├── config
-│   ├── asset_types.csv
 │   ├── damage_curves
 │   │   └── {hazard}
 │   │       └── {asset_type}.csv
@@ -166,10 +207,10 @@ Damage curves have an `intensity` column and three columns for damage fractions:
 
 - [ ] Code to spatially aggregate and finalise outputs
 - [ ] Code to make deliverable pivot tables of results
-- [x] Separate hazard pre-processing into its own workflow
 - [ ] (Optional) Add scripts for figures
 - [ ] Option to interpolate to design standards
 - [ ] More investigation simpson vs trapezoidal rule for expected value calculations
 - [ ] Verify intersections.linestrings.unsplit() index matching logic
 - [ ] Document the `exactextract` for polygons and add more damage metric functions.
+- [x] Separate hazard pre-processing into its own workflow
 
