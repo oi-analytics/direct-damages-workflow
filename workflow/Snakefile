@@ -2,14 +2,14 @@ import os
 
 configfile: "config.yaml"
 
-INPUTDIR = config["input"]
-RESULTSDIR = config["results"]
+INDIR = config["input"]
+TMPDIR = config["temp"]
+RESDIR = config["results"]
 ADMIN_LEVEL = config["admin_level"]
 ASSET_GEOMS = config["asset_geoms"]
 HAZARDS = config["hazards"]
 LOCAL_CRS = config["local_crs"]
 
-
 include: "rules/assets.smk"
 include: "rules/hazards.smk"
-include: "rules/risk.smk"
+include: "rules/intersections.smk"

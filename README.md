@@ -9,6 +9,14 @@ The workflow has strict rules about the format of input files (hazard rasters, a
 
 When all the data is in the correct format, the [Quickstart](#quickstart) instructions describe how to run an analysis.
 
+
+<img src="demo/figs/filegraph.png" alt="File graph" width="600">
+
+
+```bash
+snakemake --filegraph -n --until all_expected | dot -Tpng > ../demo/figs/filegraph.png
+```
+
 #### Other notes 
 
 - This a WIP and has only been tested on Tanzania 2025. Some parameters for Tanzania might still be hardcoded.
@@ -20,7 +28,7 @@ When all the data is in the correct format, the [Quickstart](#quickstart) instru
 
 Data is provided for a simple demo of cyclone risk to railway, airports, and bridges in Dar es Salaam, Tanzania.
 
-<img src="demo/fig/dar_es_salaam.png" alt="Infra risk" width="300">
+<img src="demo/figs/dar_es_salaam.png" alt="Infra risk" width="300">
 
 1. Clone the repository:
 ```bash
@@ -36,7 +44,7 @@ conda activate oia-direct-damages
 
 1. The demo data for cyclone hazard to Dar es Salaam, Tanzania is located in the `demo/` folder in this repository.
 
-2. In `workflow/config.yaml`, set the `inputs` key to your input data location. The input data structure should be:
+2. Create a file `workflow/config.yaml`, copy the contents of `workflow/config.template.yaml` and set the `inputs` key to your input data location. The input data structure should be:
 
     - Vector asset files: `{inputs}/assets/raw/{asset}_{geom}.parquet`
     - Admin boundary files: `{inputs}/admin/level01.gpkg`
@@ -223,4 +231,3 @@ Damage curves have an `intensity` column and three columns for damage fractions:
 - [ ] Verify intersections.linestrings.unsplit() index matching logic
 - [ ] Benchmarking and complexity
 - [x] Separate hazard pre-processing into its own workflow
-

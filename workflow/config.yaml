@@ -1,4 +1,5 @@
 input: "../demo/input"
+temp: "../demo/temp"
 results: "../demo/results"
 local_crs: 32735
 country: "tza"
@@ -10,3 +11,17 @@ asset_geoms:
   - "tza_airports_polygons"
 hazards:
   - "cyclone"
+
+# input: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/snakemake/data"
+# temp: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/snakemake/temp"
+# results: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/snakemake/results"
+# local_crs: 32735
+# country: "tza"
+# admin_level: "01"
+# bbox: [39.01, 41, -7.19, -6.57] # dar es salaam [west, east, south, north]
+# asset_geoms:
+#   - "tza_roads_bridges_and_culverts_nodes"
+#   - "tza_railway_edges"
+#   - "tza_airports_polygons"
+# hazards:
+#   - "cyclone"

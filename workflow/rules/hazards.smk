@@ -4,7 +4,7 @@ import os
 
 def get_all_input_hazards(wildcards):
     """Input function that runs at execution time"""
-    hazards_dir = Path(f"{INPUTDIR}/hazards/raw")
+    hazards_dir = Path(f"{INDIR}/hazards")
     hazards = []
     for root, dirs, files in os.walk(hazards_dir):
         for file in files:
@@ -25,10 +25,10 @@ rule align_hazard_rasters:
     snakemake -c4 align_hazard_rasters
     """
     input:
-        reference_raster=f"{INPUTDIR}/hazards/raw/_reference.tif",
+        reference_raster=f"{INDIR}/hazards/_reference.tif",
         rasters=get_all_input_hazards,
     output:
-        outdir=directory(f"{INPUTDIR}/hazards/aligned")
+        outdir=directory(f"{TMPDIR}/hazards")
     log:
         file="../logs/hazards/align_rasters.log"
     script:

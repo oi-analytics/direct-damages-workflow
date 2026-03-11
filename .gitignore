@@ -8,6 +8,7 @@ results/
 __pycache__/*
 venv/*
 src/snkit
+config.yaml
 build
 rw.py
 .snakemake/
@@ -16,6 +17,7 @@ tree.txt
 logs/
 *.log
 demo/results/
+demo/temp/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
