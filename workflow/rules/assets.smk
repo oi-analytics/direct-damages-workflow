@@ -3,7 +3,7 @@ checkpoint determine_subregions:
     snakemake -c1 determine_subregions
     """
     input:
-        subregions=f"{INDIR}/admin/level{ADMIN_LEVEL}.parquet"
+        subregions=f"{INDIR}/admin/level{ADMIN_LEVEL}.geoparquet"
     output:
         subregions=f"{TMPDIR}/config/subregions.txt",
     run:
@@ -22,7 +22,7 @@ rule process_input_edges:
     """
     input:
         edges=f"{INDIR}/assets/{{asset}}_edges.geoparquet",
-        admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.parquet",
+        admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.geoparquet",
         subregions=f"{TMPDIR}/config/subregions.txt"
     output:
         edgedir=directory(f"{TMPDIR}/assets/{{asset}}_edges"),
@@ -38,7 +38,7 @@ rule process_input_nodes:
     """
     input:
         points=f"{INDIR}/assets/{{asset}}_nodes.geoparquet",
-        admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.parquet",
+        admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.geoparquet",
         subregions=f"{TMPDIR}/config/subregions.txt"
     output:
         pointdir=directory(f"{TMPDIR}/assets/{{asset}}_nodes"),
@@ -56,7 +56,7 @@ rule process_input_polygons:
     """
     input:
         polys=f"{INDIR}/assets/raw/{{asset}}_polygons.geoparquet",
-        admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.parquet",
+        admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.geoparquet",
         subregions=f"{TMPDIR}/config/subregions.txt"
     output:
         polydir=directory(f"{TMPDIR}/assets/{{asset}}_polygons"),

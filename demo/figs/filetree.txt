@@ -1,0 +1,60 @@
+BEGIN:
+.
+├── admin
+│   └── level01.gpkg
+├── assets
+│   └── raw
+│       └── {iso}_{asset}_{geom}.geoparquet
+├── config
+│   ├── asset_types.csv
+│   ├── damage_curves
+│   │   └── {hazard}
+│   │       └── {asset_type}.csv
+│   ├── design_standards
+│   │   └── {hazard}.csv
+│   ├── rehab_costs
+│   │   └── {hazard}.csv
+│   └── subregions.txt
+├── flags
+└── hazards
+    └── raw
+        ├── _reference.tif
+        └── {hazard}_{epoch}_{scenario}_rp{rp}.tif
+
+
+FINISHED:
+.
+├── admin
+│   └── level01.gpkg
+├── assets
+│   ├── raw
+│   │   └── {iso}_{asset}_{geom}.geoparquet
+│   └── {iso}_{asset}_{geom}
+│       └── {subregion}.geoparquet
+├── config
+│   ├── asset_types.csv
+│   ├── damage_curves
+│   │   └── {hazard}
+│   │       └── {asset_type}.csv
+│   ├── design_standards
+│   │   └── {hazard}.csv
+│   ├── rehab_costs
+│   │   └── {hazard}.csv
+│   └── subregions.txt
+├── flags
+│   └── {iso}_{asset}_{geom}
+│       └── {hazard}
+│           └── {subregion}.checked
+├── hazards
+│   ├── aligned
+│   │   ├── _reference.tif
+│   │   └── {hazard}_{epoch}_{scenario}_rp{rp}.tif
+│   └── raw
+│       ├── _reference.tif
+│       └── {hazard}_{epoch}_{scenario}_rp{rp}.tif
+└── intersections
+    └── {iso}_{asset}_{geom}
+        └── {hazard}
+            └── {subregion}
+                ├── profile.geoparquet
+                └── splits.geoparquet

@@ -39,9 +39,7 @@ rule intersect_subregion_hazard:
 
 rule calculate_expected_values:
     """
-    snakemake -c4 $RESDIR/intersections/tza_railway_edges/cyclone/dar_es_salaam/expected.parquet
-    snakemake -c4 $RESDIR/intersections/tza_airports_polygons/cyclone/dar_es_salaam/expected.parquet
-    snakemake -c4 $RESDIR/intersections/tza_roads_bridges_and_culverts_nodes/cyclone/dar_es_salaam/expected.parquet
+    snakemake -c4 $RESDIR/intersections/tza_railway_edges/fluvial/kilimanjaro/expected.parquet
     """
     input:
         vector=f"{RESDIR}/intersections/{{asset}}_{{geom}}/{{hazard}}/{{subregion}}/profile.geoparquet"
