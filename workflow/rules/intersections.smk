@@ -89,7 +89,6 @@ rule all_profiles:
 
 
 rule all_expected:
-# rule all:
     """
     snakemake -c2 all_profiles -n
     """

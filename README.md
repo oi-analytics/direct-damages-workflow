@@ -240,6 +240,7 @@ For line geometries. There the option to output `splits.geoparquet` this returns
 ## To do
 
 ### Documentation
+
 - [ ] Document the `exactextract` for polygons and add more damage metric functions.
 - [ ] Better figures
 - [ ] Make the "splits" options clearer
@@ -251,7 +252,8 @@ For line geometries. There the option to output `splits.geoparquet` this returns
 - [ ] Code to make deliverable pivot tables of results
 - [ ] Option to interpolate to design standards
 - [ ] (Optional) Add scripts for figures
-- [ ] More investigation simpson vs trapezoidal rule for expected value calculations
+- [ ] Consider saving only nonzeros? R does this but unsure if to keep track of missing data vs true zeros.
+- [ ] More investigation Simpson vs trapezoidal rule for expected value calculations
 - [ ] Verify intersections.linestrings.unsplit() index matching logic
 - [ ] Benchmarking and complexity
 - [x] Separate hazard pre-processing into its own workflow

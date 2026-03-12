@@ -3,16 +3,19 @@ temp: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrast
 results: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/snakemake/results"
 figs: "/Users/alison/Library/CloudStorage/OneDrive-SharedLibraries-OxfordInfrastructureAnalyticsLimited/WBG Tanzania transport resilience - Project/4 Data/snakemake/figs"
 local_crs: 32735
-country: "tza"
+country: tza
 admin_level: "01"
 bbox: [29.5947, 40.4461, -11.7602, -7.19, -0.9848]
 asset_geoms:
-  - "tza_roads_edges"
+  - tza_railway_edges
+  - tza_airports_polygons
+  - tza_maritime_ports_polygons
+  - tza_iww_ports_polygons
 hazards:
-  - "fluvial"
-  - "pluvial"
-  - "coastal"
-  - "cyclone"
-  - "landslide"
-  - "tasmax"
-  - "hd35"
+  - fluvial
+  - pluvial
+  - coastal
+  - cyclone
+  - landslide
+  - tasmax
+  - hd35

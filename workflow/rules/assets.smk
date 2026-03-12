@@ -55,7 +55,7 @@ rule process_input_polygons:
     snakemake --cores 4 $INDIR/assets/tza_maritime_ports_polygons
     """
     input:
-        polys=f"{INDIR}/assets/raw/{{asset}}_polygons.geoparquet",
+        polys=f"{INDIR}/assets/{{asset}}_polygons.geoparquet",
         admin=f"{INDIR}/admin/level{ADMIN_LEVEL}.geoparquet",
         subregions=f"{TMPDIR}/config/subregions.txt"
     output:
