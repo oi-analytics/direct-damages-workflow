@@ -103,6 +103,9 @@ def main(input, output, params=None):
     # melt to long format
     id_cols = ["metric", "hazard", "epoch", "scenario", "rp", "range"]
     risk_df = risk_df.melt(id_vars=id_cols, var_name="id", value_name="value")
+
+    # to prevent accidentally dropping metrics (hazard) without ranges
+    risk_df["range"] = risk_df["range"].fillna("mean")
     risk_df["value"] = risk_df["value"].fillna(0.0)
 
     # vectorised ead calculation
