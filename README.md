@@ -63,6 +63,7 @@ snakemake --filegraph -n --until all_expected | dot -Tpng > ../demo/figs/filegra
 ```
 
 ---
+
 # Data formatting rules
 
 ### Config file
@@ -165,10 +166,14 @@ For each hazard type, asset, and subregion, you get two files:
 
 The risk metrics are:
 
-- `hazard`: the number of units experiencing damage > 0 (m, sqm, or units depending on geometry).
-- `defended`: the number of units experiencing damage > 0 (m, sqm, or units depending on geometry), accounting for protection standards.
-- `damage`: the fraction of the asset damaged.
-- `cost`: the repair cost, calculated as [ total rehabilitation cost of asset ] $\times$ [ fraction of asset damaged ].
+| Metric | Description | Split aggregation |
+| ------ | ----------- | ----------------- |
+| `hazard` | Raw hazard intensity | Max |
+| `defended` | Net hazard intensity | Max |
+| `damage` | Extent of damaged (units/m/sqm) | Sum |
+| `cost` | Repair costs of damaged units | Sum |
+
+Repair cost is calculated as [ total rehabilitation cost of asset ] $\times$ [ fraction of asset damaged ].
 
 For line geometries. There the option to output `splits.geoparquet` this returns the metrics above for the vector data, split over the raster grid.
 
