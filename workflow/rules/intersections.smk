@@ -90,7 +90,7 @@ rule all_profiles:
 
 rule all_expected:
     """
-    snakemake -c2 all_profiles -n
+    snakemake -c2 all_expected -n
     """
     input:
         lambda wildcards: expand(
