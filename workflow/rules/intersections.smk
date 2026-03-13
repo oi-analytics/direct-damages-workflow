@@ -19,7 +19,7 @@ rule intersect_subregion_hazard:
     """
     input:
         asset_dir=f"{TMPDIR}/assets/{{asset}}_{{geom}}",
-        hazard_dir=f"{TMPDIR}/hazards"
+        hazard_dir=rules.align_hazard_rasters.output.outdir
     output:
         vector=f"{RESDIR}/intersections/{{asset}}_{{geom}}/{{hazard}}/{{subregion}}/profile.geoparquet"
     params:
