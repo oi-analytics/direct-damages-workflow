@@ -86,12 +86,6 @@ rule all_profiles:
             hazard=HAZARDS,
             subregion=(checkpoints.determine_subregions.get() or True) and get_subregions()
         )
-        # expand(
-        #     f"{RESDIR}/intersections/{{asset_geom}}/{{hazard}}/{{subregion}}/profile.geoparquet",
-        #     asset_geom=ASSET_GEOMS,
-        #     hazard=HAZARDS,
-        #     subregion=get_subregions()
-        # )
 
 
 rule all_expected:
@@ -105,12 +99,6 @@ rule all_expected:
             hazard=HAZARDS,
             subregion=(checkpoints.determine_subregions.get() or True) and get_subregions()
         )
-        # expand(
-        #     f"{RESDIR}/intersections/{{asset_geom}}/{{hazard}}/{{subregion}}/expected.parquet",
-        #     asset_geom=ASSET_GEOMS,
-        #     hazard=HAZARDS,
-        #     subregion=get_subregions()
-        # )
 
 
 rule verify_intersections:
