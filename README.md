@@ -42,8 +42,8 @@ Data is provided for a small demo of cyclone risk to railway, airports, and brid
     ```bash
     cd workflow
 
-    snakemake -c2 all_expectations -n # check what will run
-    snakemake -c2 all_expectations    # run the analysis
+    snakemake -c2 all_expected -n # check what will run
+    snakemake -c2 all_expected    # run the analysis
     ```
 
 4. Done 👍 You can plot the `demo/results/intersections/{asset}/cyclone/profile.geoparquet` with the hazard raster for a scenario:
