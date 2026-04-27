@@ -16,6 +16,8 @@ rule intersect_subregion_hazard:
     snakemake -c4 $RESDIR/intersections/tza_railway_edges/cyclone/dar_es_salaam/profile.geoparquet
     snakemake -c4 $RESDIR/intersections/tza_airports_polygons/cyclone/dar_es_salaam/profile.geoparquet
     snakemake -c4 $RESDIR/intersections/tza_roads_bridges_and_culverts_nodes/cyclone/dar_es_salaam/profile.geoparquet
+
+    snakemake -c1 $RESDIR/intersections/tza_railway_edges/pluvial/singida/profile.geoparquet
     """
     input:
         asset_dir=f"{TMPDIR}/assets/{{asset}}_{{geom}}",

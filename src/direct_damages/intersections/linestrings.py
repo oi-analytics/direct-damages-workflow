@@ -48,7 +48,9 @@ def unsplit(vector, vector_ref, hazard_cols, damage_cols, cost_cols):
         return x.sum(min_count=1)
     
     def max_strict(x):
-        return np.nan if x.isna().any() else x.max()
+        # took three days to realise should be .all()
+        # and .any() was creating tonnes of NaNs :-)
+        return np.nan if x.isna().all() else x.max()
     
     agg_func = {col: max_strict for col in hazard_cols} | \
                 {col: sum_strict for col in damage_cols} | \

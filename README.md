@@ -62,6 +62,7 @@ You can make it like this:
 snakemake --filegraph -n --until all_expected | dot -Tpng > ../demo/figs/filegraph.png
 ```
 
+
 ---
 
 # Data formatting rules

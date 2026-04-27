@@ -1,6 +1,6 @@
 """Plot the deltas for each hazard."""
 
-"""Plot the hazard statistics as line plots."""
+"""Plot the hazard statistics as maps."""
 #%%
 from glob import glob
 from pathlib import Path
@@ -102,4 +102,6 @@ fig.colorbar(
 )
 
 fig.savefig(figdir / f"{hazard}_deltas.png", transparent=True, dpi=300)
+# %%
+fig.savefig(figdir / f"{hazard}_deltas.pdf", transparent=True, dpi=300)
 # %%

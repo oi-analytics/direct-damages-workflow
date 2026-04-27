@@ -17,8 +17,8 @@ def ead(df:pd.DataFrame, method="trapezoid") -> float:
         rps = df["rp"].astype(float).values
         probs = 1 / rps
         idx = np.argsort(probs)
-        probs = np.insert(probs[idx], 0, 0.0)
-        damages = np.insert(damages[idx], 0, 0.0)
+        probs = probs[idx]
+        damages = damages[idx]
         ead_value = getattr(integrate, method)(damages, x=probs)
         return ead_value
 
@@ -97,7 +97,6 @@ def main(input, output, params=None):
         risk_tuples.tolist(),
         columns=["metric", "hazard", "epoch", "scenario", "rp", "range"]
     )
-    # risk_df = risk_df.reset_index(drop=True).join(risk_info)
     risk_df = risk_df.drop(columns="index").join(risk_info)
     
     # melt to long format
