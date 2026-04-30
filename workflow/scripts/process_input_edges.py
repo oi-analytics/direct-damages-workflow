@@ -47,6 +47,7 @@ def check_for_duplicates(gdf, column="id"):
 
 
 def intersect_by_overlap(edges, admin):
+    print("WARNING: This should be replaced with overlay in the future.")
     check_for_duplicates(edges, column="id")
     check_for_duplicates(admin, column="subregion")
 
