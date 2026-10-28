@@ -174,7 +174,11 @@ The risk metrics are:
 | `damage` | Extent of damaged (units/m/sqm) | Sum |
 | `cost` | Repair costs of damaged units | Sum |
 
-Repair cost is calculated as [ total rehabilitation cost of asset ] $\times$ [ fraction of asset damaged ].
+Repair cost is calculated as:
+
+`[ total rehabilitation cost of asset ]` $\times$ `[ fraction of asset damaged ]`
+
+You can also reverse-engineer `fraction of asset damaged` by dividing `cost` by the rehab costs in config and `unit`. 
 
 For line geometries. There the option to output `splits.geoparquet` this returns the metrics above for the vector data, split over the raster grid.
 

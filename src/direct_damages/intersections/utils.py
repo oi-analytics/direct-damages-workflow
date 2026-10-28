@@ -20,6 +20,9 @@ def make_raster_basenames(raster_files):
 def grid_from_window(raster_file, bounds, verbose=False) -> snint.GridDefinition:
     """Create a snint.GridDefinition.from_raster for window defined by bounds."""
     with rasterio.open(raster_file) as src:
+        xres, yres = src.res
+        # pad bounds by one pixel
+        bounds = (bounds[0] - xres, bounds[1] - yres, bounds[2] + xres, bounds[3] + yres)
         window = rasterio.windows.from_bounds(
             bounds[0], bounds[1], bounds[2], bounds[3],
             transform=src.transform

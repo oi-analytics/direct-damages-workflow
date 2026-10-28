@@ -95,6 +95,8 @@ def intersect(
                         f"for asset type '{asset_type}'.\n"
                     )
                 thresholds = vector_asset[design_standard_col].values
+
+                
                 defended_values = (
                     vector_asset[hazard_col].values - thresholds
                 ).clip(min=0.0)
@@ -113,6 +115,7 @@ def intersect(
                 damage_frac = vectorised_damage_calculation(
                     defended_array, damage_function
                 )
+
                 
                 new_columns[damage_col] = damage_frac
                 damage_cols.add(damage_col)
